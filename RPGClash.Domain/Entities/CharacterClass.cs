@@ -1,6 +1,9 @@
 ﻿namespace RPGClash.Domain.Entities;
 
-public class CharacterClass
+public enum CharacterClass
 {
-
+    Unknown = 0,
+    Tank = 1,
+    Healer = 2,
+    DPS = 3
 }

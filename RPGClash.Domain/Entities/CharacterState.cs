@@ -1,4 +1,6 @@
-﻿namespace RPGClash.Domain.Entities;
+﻿using RPGClash.Domain.Classes;
+
+namespace RPGClash.Domain.Entities;
 
 public class CharacterState
 {
@@ -12,7 +14,11 @@ public class CharacterState
 
     public int CurrentMana { get; set; } = default!;
 
-    public Character Character { get; set; } = default!;
+    public ICharacter Character { get; set; } = default!;
 
     public bool ALeadyPlayed { get; set; } = false;
+
+    public int TargetedCharacterId { get; set; }
+
+    public CharacterState? TargetedCharacted { get; set; }
 }
