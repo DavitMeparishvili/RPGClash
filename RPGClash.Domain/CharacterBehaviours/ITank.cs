@@ -2,7 +2,7 @@
 
 namespace RPGClash.Domain.CharacterBehaviours;
 
-public interface ITaunterBehavior
+public interface ITank
 {
-    ICharacter Taunt(ICharacter traget);
+    Character Taunt(Character traget);
 }

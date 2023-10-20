@@ -1,6 +1,6 @@
 ﻿namespace RPGClash.Domain.CharacterBehaviours;
 
-public interface IRegeneratorBehavior
+public interface IRegenerator
 {
     void Regenerate();
 }

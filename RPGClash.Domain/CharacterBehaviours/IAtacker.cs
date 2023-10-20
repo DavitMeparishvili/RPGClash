@@ -2,7 +2,7 @@
 
 namespace RPGClash.Domain.CharacterBehaviours;
 
-public interface IAttackerBehavior
+public interface IAttacker
 {
-    ICharacter BasicAttack(ICharacter traget);
+    Character BasicAttack(Character traget);
 }

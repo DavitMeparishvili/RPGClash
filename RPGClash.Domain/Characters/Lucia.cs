@@ -2,40 +2,13 @@
 
 namespace RPGClash.Domain.Characters;
 
-public class Lucia : ICharacter, IHealerBehavior
+public class Lucia : Character, IHealer
 {
-    public CharacterName Name => CharacterName.Lucia;
+    public Lucia() : base(CharacterName.Lucia, 600, 800) { }
 
-    public ICharacter Target { get; set; }
-
-    public int MaxHealth { get; }
-
-    public int MaxMana { get; }
-
-    public int CurrentHealth { get; set; }
-
-    public Lucia()
-    {
-        var maxHealth = 800;
-        MaxHealth = maxHealth;
-        CurrentHealth = maxHealth;
-        MaxMana = 700;
-    }
-
-    public ICharacter BasicAttack(ICharacter traget)
-    {
-        traget.CurrentHealth = - 70;
-        return traget;
-    }
-
-    public ICharacter Heal(ICharacter traget)
+    public Character Heal(Character traget)
     {
         traget.CurrentHealth = +300;
         return traget;
-    }
-
-    public void Regenerate()
-    {
-        CurrentHealth = +370;
     }
 }

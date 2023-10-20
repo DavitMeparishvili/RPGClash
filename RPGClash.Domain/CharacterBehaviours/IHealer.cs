@@ -2,7 +2,8 @@
 
 namespace RPGClash.Domain.CharacterBehaviours;
 
-public interface IHunterBehavior
+public interface IHealer
 {
-    ICharacter Shoot(ICharacter traget);
+    Character Heal(Character traget);
 }
+
