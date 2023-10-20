@@ -1,8 +1,8 @@
-﻿using RPGClash.Domain.Classes;
+﻿using RPGClash.Domain.CharacterBehaviours;
 
 namespace RPGClash.Domain.Characters;
 
-public class Lucia : IHealer
+public class Lucia : ICharacter, IHealerBehavior
 {
     public CharacterName Name => CharacterName.Lucia;
 

@@ -1,8 +1,8 @@
-﻿using RPGClash.Domain.Classes;
+﻿using RPGClash.Domain.CharacterBehaviours;
 
 namespace RPGClash.Domain.Characters;
 
-public class Cedrick : IHealer, IMarksman
+public class Cedrick : ICharacter, IHealerBehavior, IHunterBehavior
 {
     public CharacterName Name => CharacterName.Cedrick;
 

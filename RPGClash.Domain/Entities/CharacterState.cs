@@ -1,4 +1,4 @@
-﻿using RPGClash.Domain.Classes;
+﻿using RPGClash.Domain.Characters;
 
 namespace RPGClash.Domain.Entities;
 

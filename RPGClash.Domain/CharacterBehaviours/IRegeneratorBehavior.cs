@@ -1,6 +1,4 @@
-﻿using RPGClash.Domain.Classes;
-
-namespace RPGClash.Domain.CharacterBehaviours;
+﻿namespace RPGClash.Domain.CharacterBehaviours;
 
 public interface IRegeneratorBehavior
 {
