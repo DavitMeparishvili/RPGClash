@@ -8,7 +8,7 @@ public class Lucia : Character, IHealer
 
     public Character Heal(Character traget)
     {
-        traget.CurrentHealth = +300;
+        MakeMove(x => x.CurrentHealth = +300, traget, 40);
         return traget;
     }
 }

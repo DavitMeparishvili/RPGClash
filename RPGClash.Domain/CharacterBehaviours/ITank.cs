@@ -4,5 +4,5 @@ namespace RPGClash.Domain.CharacterBehaviours;
 
 public interface ITank
 {
-    Character Taunt(Character traget);
+    void Taunt(Character traget);
 }

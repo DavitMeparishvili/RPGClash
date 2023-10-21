@@ -8,13 +8,13 @@ public class Cedrick : Character, IHealer, IHunter
 
     public Character Heal(Character traget)
     {
-        traget.CurrentHealth = +200;
+        MakeMove(x => x.CurrentHealth = +200, traget, 50);
         return traget;
     }
 
     public Character Shoot(Character traget)
     {
-        traget.CurrentHealth = -220;
+        MakeMove(x => x.CurrentHealth = -220, traget, 50);
         return traget;
     }
 }

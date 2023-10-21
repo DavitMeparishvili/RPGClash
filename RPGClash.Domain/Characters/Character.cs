@@ -12,7 +12,21 @@ public abstract class Character : IAttacker, IRegenerator
 
     public int CurrentHealth { get; set; }
 
-    public Character Target { get; set; }
+    public int CurrentMana { get; set; }
+
+    public bool IsTaunted { get; set; }
+
+    private Character _target;
+
+    public Character Target
+    {
+        get => _target;
+        set
+        {
+            if(!IsTaunted)
+            _target = value;
+        }
+    }
 
     public Character(CharacterName name, int maxHealth, int maxMana)
     {
@@ -20,6 +34,7 @@ public abstract class Character : IAttacker, IRegenerator
         MaxHealth = maxHealth;
         CurrentHealth = maxHealth;
         MaxMana = maxMana;
+        CurrentHealth = maxMana;
     }
 
     public virtual Character BasicAttack(Character traget)
@@ -30,11 +45,51 @@ public abstract class Character : IAttacker, IRegenerator
 
     public virtual void Regenerate()
     {
-        CurrentHealth = +170;
+        if (ValidateMove(60))
+        {
+            CurrentHealth = +170;
+        }
     }
 
-    public virtual void SetTarget(Character traget)
+    protected bool ValidateMove(int manaCost)
     {
-        Target = traget;
+        if (manaCost > CurrentMana)
+        {
+           return false;
+        }
+        else
+        {
+            CurrentMana = -manaCost;
+            return true;
+        }
+    }
+
+    protected virtual bool MakeMove(Action<Character> move, Character target, int manaCost) 
+    { 
+        if (ValidateMove(manaCost))
+        {
+           move(target);
+           return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    protected virtual bool MakeMassMove(Action<Character> move, List<Character> targets, int manaCost)
+    {
+        if (ValidateMove(manaCost))
+        {
+            foreach (var target in targets)
+            {
+                move(target);
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
