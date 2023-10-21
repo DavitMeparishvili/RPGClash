@@ -2,15 +2,9 @@
 
 namespace RPGClash.Domain.Characters;
 
-public class Gulari : Character, ITank
+public class Guladi : Character, ITank
 {
-    public Gulari() : base(CharacterName.Guladi, 1800, 300) { }
-
-    public Character Heal(Character traget)
-    {
-        MakeMove(x => x.CurrentHealth = +120, traget, 55);
-        return traget;
-    }
+    public Guladi() : base(CharacterName.Guladi, 1800, 300) { }
 
     public void Taunt(Character traget)
     {
