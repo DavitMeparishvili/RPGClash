@@ -16,6 +16,8 @@ public abstract class Character : IAttacker, IRegenerator
 
     public bool IsTaunted { get; set; }
 
+    public bool IsAlive { get; private set; } = true;
+
     private Character _target;
 
     public Character Target
@@ -39,7 +41,7 @@ public abstract class Character : IAttacker, IRegenerator
 
     public virtual Character BasicAttack(Character traget)
     {
-        traget.CurrentHealth = -120;
+        MakeMove(x => x.CurrentHealth = -120, traget, 0);
         return traget;
     }
 
@@ -69,6 +71,11 @@ public abstract class Character : IAttacker, IRegenerator
         if (ValidateMove(manaCost))
         {
            move(target);
+           if(target.CurrentHealth <=0)
+           {
+                target.CurrentHealth = 0;
+                target.IsAlive = false;
+           }
            return true;
         }
         else
