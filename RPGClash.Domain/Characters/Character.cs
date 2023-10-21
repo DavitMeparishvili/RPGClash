@@ -66,37 +66,32 @@ public abstract class Character : IAttacker, IRegenerator
         }
     }
 
-    protected virtual bool MakeMove(Action<Character> move, Character target, int manaCost) 
-    { 
-        if (ValidateMove(manaCost))
+    private void UpdateCharacterStatus(Character character)
+    {
+        if (character.CurrentHealth <= 0)
         {
-           move(target);
-           if(target.CurrentHealth <=0)
-           {
-                target.CurrentHealth = 0;
-                target.IsAlive = false;
-           }
-           return true;
-        }
-        else
-        {
-            return false;
+            character.CurrentHealth = 0;
+            character.IsAlive = false;
         }
     }
 
-    protected virtual bool MakeMassMove(Action<Character> move, List<Character> targets, int manaCost)
+    protected virtual bool MakeMove(Action<Character> move, Character target, int manaCost)
+    {
+        return MakeMove(move, new List<Character> { target }, manaCost);
+    }
+
+    protected virtual bool MakeMove(Action<Character> move, List<Character> targets, int manaCost)
     {
         if (ValidateMove(manaCost))
         {
             foreach (var target in targets)
             {
                 move(target);
+                UpdateCharacterStatus(target);
             }
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 }
