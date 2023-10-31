@@ -6,6 +6,5 @@ public class PlayerState
     public User User { get; set; } = default!;
     public int UserId { get; set; } = default!;
     public List<CharacterState> CharacterStates { get; set; } = default!;
-    public int Round { get; set; } = default!;
-    public bool MadeMove { get; set; }
+    public bool DoneWithMoves { get; set; }
 }

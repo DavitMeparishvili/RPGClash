@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Game\" />
     <Folder Include="Character\" />
-    <Folder Include="CharacterAction\" />
     <Folder Include="Player\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RPGClash.Domain\RPGClash.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using RPGClash.Domain.Characters;
+using System;
 
 namespace RPGClash.Domain.Entities;
 
@@ -21,4 +22,16 @@ public class CharacterState
     public int TargetedCharacterId { get; set; }
 
     public CharacterState? TargetedCharacted { get; set; }
+
+    public CharacterState()
+    {
+    }
+
+    public CharacterState(Character character)
+    {
+        Character = character;
+        CurrentHealth = character.CurrentHealth;
+        CurrentMana = character.CurrentMana;
+        ALeadyPlayed = false;
+    }
 }
