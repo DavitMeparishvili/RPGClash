@@ -18,6 +18,10 @@ public abstract class Character : IAttacker, IRegenerator
 
     public bool IsAlive { get; private set; } = true;
 
+    public int BasicHeatPoint { get; set; }
+
+    public int BasicHealPoint { get; set; }
+
     private Character _target;
 
     public Character Target
@@ -30,18 +34,21 @@ public abstract class Character : IAttacker, IRegenerator
         }
     }
 
-    public Character(CharacterName name, int maxHealth, int maxMana)
+    public Character(CharacterName name, int maxHealth, int maxMana, int basicHeatPoint, int hasicHealPoint)
     {
         Name = name;
         MaxHealth = maxHealth;
         CurrentHealth = maxHealth;
         MaxMana = maxMana;
-        CurrentHealth = maxMana;
+        CurrentMana = maxMana;
+        CurrentHealth = maxHealth;
+        BasicHeatPoint = basicHeatPoint;
+        BasicHealPoint = hasicHealPoint;
     }
 
     public virtual Character BasicAttack(Character traget)
     {
-        MakeMove(x => x.CurrentHealth = -120, traget, 0);
+        MakeMove(x => x.CurrentHealth -= BasicHeatPoint, traget, 0);
         return traget;
     }
 
@@ -49,7 +56,7 @@ public abstract class Character : IAttacker, IRegenerator
     {
         if (ValidateMove(60))
         {
-            CurrentHealth = +170;
+            CurrentHealth += BasicHealPoint;
         }
     }
 
@@ -61,7 +68,6 @@ public abstract class Character : IAttacker, IRegenerator
         }
         else
         {
-            CurrentMana = -manaCost;
             return true;
         }
     }
@@ -86,6 +92,7 @@ public abstract class Character : IAttacker, IRegenerator
         {
             foreach (var target in targets)
             {
+                target.CurrentMana -= manaCost;
                 move(target);
                 UpdateCharacterStatus(target);
             }

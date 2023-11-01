@@ -4,7 +4,7 @@ namespace RPGClash.Domain.Characters;
 
 public class Guladi : Character, ITank
 {
-    public Guladi() : base(CharacterName.Guladi, 1800, 300) { }
+    public Guladi() : base(CharacterName.Guladi, 1800, 300, 90, 70) { }
 
     public void Taunt(Character traget)
     {
