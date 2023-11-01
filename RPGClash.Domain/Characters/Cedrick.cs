@@ -1,4 +1,4 @@
-﻿using RPGClash.Domain.CharacterBehaviours;
+﻿using RPGClash.Domain.CharacterClasses;
 
 namespace RPGClash.Domain.Characters;
 
@@ -6,15 +6,16 @@ public class Cedrick : Character, IHealer, IHunter
 {
     public Cedrick() : base(CharacterName.Cedrick, 700, 600, 150, 120) {}
 
-    public Character Heal(Character traget)
+    public Character Heal(Character target)
     {
-        MakeMove(x => x.CurrentHealth += 200, traget, 50);
-        return traget;
+        MakeMove(x => x.CurrentHealth += 200, target, 50);
+        return target;
     }
 
-    public Character Shoot(Character traget)
+    public Character Shoot(Character target)
     {
-        MakeMove(x => x.CurrentHealth -= 220, traget, 50);
-        return traget;
+        var hitTarget = TauntValidateAndGetrealtarget(target);
+        MakeMove(x => x.CurrentHealth -= 220, hitTarget, 50);
+        return hitTarget;
     }
 }

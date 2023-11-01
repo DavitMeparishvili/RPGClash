@@ -1,4 +1,4 @@
-﻿using RPGClash.Domain.CharacterBehaviours;
+﻿using RPGClash.Domain.CharacterClasses;
 
 namespace RPGClash.Domain.Characters;
 
@@ -14,6 +14,6 @@ public class Zezva : Character, ITank, IHunter
 
     public void Taunt(Character traget)
     {
-        MakeMove(x => x.IsTaunted = true, traget, 30);
+        MakeMove(x => x.TauntedTarget = this, traget, 30);
     }
 }

@@ -1,4 +1,4 @@
-﻿using RPGClash.Domain.CharacterBehaviours;
+﻿using RPGClash.Domain.CharacterClasses;
 
 namespace RPGClash.Domain.Characters;
 

@@ -1,4 +1,4 @@
-﻿using RPGClash.Domain.CharacterBehaviours;
+﻿using RPGClash.Domain.CharacterClasses;
 
 namespace RPGClash.Domain.Characters;
 
@@ -8,6 +8,6 @@ public class Guladi : Character, ITank
 
     public void Taunt(Character traget)
     {
-        MakeMove(x => x.IsTaunted = true, traget, 35);
+        MakeMove(x => x.TauntedTarget = this, traget, 35);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace RPGClash.Domain.CharacterBehaviours;
+﻿namespace RPGClash.Domain.CharacterClasses;
 
 public interface IRegenerator
 {

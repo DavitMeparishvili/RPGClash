@@ -1,6 +1,6 @@
 ﻿using RPGClash.Domain.Characters;
 
-namespace RPGClash.Domain.CharacterBehaviours;
+namespace RPGClash.Domain.CharacterClasses;
 
 public interface IAttacker
 {

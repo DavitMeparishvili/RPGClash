@@ -30,6 +30,8 @@ namespace RPGClash.GameEngine.CharacterAction.Concrete
                     throw new GameException("Character cannot be instantiated");
                 }
 
+                _charactersWithActions.Add(characterWithActions);
+
                 return characterWithActions;
             }
             
@@ -55,6 +57,8 @@ namespace RPGClash.GameEngine.CharacterAction.Concrete
                 return null;
             }
         }
+
+        //To Be factory service
         private Character CreateCharacter(CharacterName character)
         {
             Assembly[] loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();

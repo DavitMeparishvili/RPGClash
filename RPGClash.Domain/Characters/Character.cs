@@ -1,4 +1,5 @@
-﻿using RPGClash.Domain.CharacterBehaviours;
+﻿using RPGClash.Domain.CharacterClasses;
+using System.Diagnostics;
 
 namespace RPGClash.Domain.Characters;
 
@@ -20,17 +21,20 @@ public abstract class Character : IAttacker, IRegenerator
 
     public int BasicHeatPoint { get; set; }
 
-    public int BasicHealPoint { get; set; }
+    public int BasicHealingPoint { get; set; }
 
-    private Character _target;
+    private Character _tauntedTarget;
 
-    public Character Target
+    public Character TauntedTarget
     {
-        get => _target;
+        get => _tauntedTarget;
         set
         {
             if(!IsTaunted)
-            _target = value;
+            {
+                IsTaunted = true;
+                _tauntedTarget = value;
+            }
         }
     }
 
@@ -43,24 +47,35 @@ public abstract class Character : IAttacker, IRegenerator
         CurrentMana = maxMana;
         CurrentHealth = maxHealth;
         BasicHeatPoint = basicHeatPoint;
-        BasicHealPoint = hasicHealPoint;
+        BasicHealingPoint = hasicHealPoint;
     }
 
-    public virtual Character BasicAttack(Character traget)
+    public virtual Character BasicAttack(Character target)
     {
-        MakeMove(x => x.CurrentHealth -= BasicHeatPoint, traget, 0);
-        return traget;
+        var hitTarget = TauntValidateAndGetrealtarget(target);
+        MakeMove(x => x.CurrentHealth -= BasicHeatPoint, hitTarget, 0);
+        return hitTarget;
+    }
+
+    protected Character TauntValidateAndGetrealtarget(Character target)
+    {
+        if (IsTaunted)
+        {
+            IsTaunted = false;
+            return TauntedTarget;
+        }
+        else
+        {
+            return target;
+        }
     }
 
     public virtual void Regenerate()
     {
-        if (ValidateMove(60))
-        {
-            CurrentHealth += BasicHealPoint;
-        }
+        MakeMove(x => x.CurrentHealth += BasicHealingPoint, this, 60);
     }
 
-    protected bool ValidateMove(int manaCost)
+    protected bool ValidateAndDeductManaCost(int manaCost)
     {
         if (manaCost > CurrentMana)
         {
@@ -68,6 +83,7 @@ public abstract class Character : IAttacker, IRegenerator
         }
         else
         {
+            CurrentMana -= manaCost;
             return true;
         }
     }
@@ -81,6 +97,14 @@ public abstract class Character : IAttacker, IRegenerator
         }
     }
 
+    private void CheckForOverHeal(Character character)
+    {
+        if (character.CurrentHealth > character.MaxHealth) 
+        {
+            character.CurrentHealth = character.MaxHealth;
+        }
+    }
+
     protected virtual bool MakeMove(Action<Character> move, Character target, int manaCost)
     {
         return MakeMove(move, new List<Character> { target }, manaCost);
@@ -88,13 +112,13 @@ public abstract class Character : IAttacker, IRegenerator
 
     protected virtual bool MakeMove(Action<Character> move, List<Character> targets, int manaCost)
     {
-        if (ValidateMove(manaCost))
+        if (ValidateAndDeductManaCost(manaCost))
         {
             foreach (var target in targets)
             {
-                target.CurrentMana -= manaCost;
                 move(target);
                 UpdateCharacterStatus(target);
+                CheckForOverHeal(target);
             }
             return true;
         }
