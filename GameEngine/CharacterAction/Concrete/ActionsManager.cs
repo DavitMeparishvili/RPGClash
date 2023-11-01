@@ -1,9 +1,8 @@
-﻿using RPGClash.Domain;
-using RPGClash.Domain.Characters;
+﻿using RPGClash.Domain.Characters;
 using RPGClash.GameEngine.CharacterAction.Abstract;
 using RPGClash.GameEngine.Dtos;
 using RPGClash.GameEngine.Exceptions;
-using System.Reflection;
+using RPGClash.GameEngine.Factory.Abstract;
 
 namespace RPGClash.GameEngine.CharacterAction.Concrete
 {
@@ -12,10 +11,12 @@ namespace RPGClash.GameEngine.CharacterAction.Concrete
         private List<CharacterWithActions> _charactersWithActions = new List<CharacterWithActions>();
         
         private readonly IActionClassMapperService _actionClassMapperService;
+        private readonly ICharacterFactory _characterFactory;
 
-        public ActionsManager(IActionClassMapperService actionClassMapperService)
+        public ActionsManager(IActionClassMapperService actionClassMapperService, ICharacterFactory characterFactory)
         {
             _actionClassMapperService = actionClassMapperService;
+            _characterFactory = characterFactory;
         }
         public CharacterWithActions GetAvailableActions(CharacterName character)
         {
@@ -37,9 +38,10 @@ namespace RPGClash.GameEngine.CharacterAction.Concrete
             
             return characterWithActions;
         }
+
         private CharacterWithActions CreateCharacterWithActions(CharacterName characterName) 
         {
-            var character = CreateCharacter(characterName);
+            var character = _characterFactory.CreateCharacter(characterName);
 
             if (character is not null)
             {
@@ -56,42 +58,6 @@ namespace RPGClash.GameEngine.CharacterAction.Concrete
             {
                 return null;
             }
-        }
-
-        //To Be factory service
-        private Character CreateCharacter(CharacterName character)
-        {
-            Assembly[] loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            var domainAssemblies = loadedAssemblies
-                .Where(assembly => assembly == typeof(AssamblyReference).Assembly)
-                .ToList();
-
-            // Iterate through the assemblies and types to find a suitable type
-            foreach (var assembly in domainAssemblies)
-            {
-                var characterType = assembly.GetTypes()
-                    .Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(Character)))
-                    .FirstOrDefault(t =>
-                    {
-                        var nameProperty = t.GetProperty("Name");
-                        if (nameProperty != null)
-                        {
-                            var defaultValue = nameProperty.GetValue(Activator.CreateInstance(t));
-                            return defaultValue?.ToString() == character.ToString();
-                        }
-                        return false;
-                    });
-
-                if (characterType != null)
-                {
-                    // Create an instance of the found type
-                    return (Character)Activator.CreateInstance(characterType);
-                }
-            }
-
-            // If no suitable type is found, return null or handle the case accordingly.
-            return null;
         }
     }
 }
