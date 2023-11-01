@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using RPGClash.Domain.Characters;
+using RPGClash.UnitTests.Shared;
 
 namespace RPGClash.UnitTests
 {
