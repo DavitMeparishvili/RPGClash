@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GameEngine\RPGClash.GameEngine.csproj" />
     <ProjectReference Include="..\RPGClash.Domain\RPGClash.Domain.csproj" />
   </ItemGroup>
 
