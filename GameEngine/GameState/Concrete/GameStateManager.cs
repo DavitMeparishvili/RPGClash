@@ -13,6 +13,7 @@ namespace RPGClash.GameEngine.Game.Concrete
         private readonly IUserRepo _userRepo;
 
         private readonly ICharacterRepo _characterRepo;
+        
         public GameStateManager(IUserRepo userRepo, ICharacterRepo characterRepo)
         {
             _userRepo = userRepo;
@@ -56,9 +57,14 @@ namespace RPGClash.GameEngine.Game.Concrete
                 throw new GameException("Only 2 player games are supported");
             }
 
-            if (gameState.Any(x => x.Characters.Count < 3))
+            if (gameState.Any(x => x.Characters.Count != 3))
             {
                 throw new GameException("Each player should pick 3 heroes");
+            }
+
+            if (gameState.Any(x => x.Characters.Distinct().Count() != x.Characters.Count))
+            {
+                throw new GameException("Each player should pick 3 different heroes");
             }
         }
 
