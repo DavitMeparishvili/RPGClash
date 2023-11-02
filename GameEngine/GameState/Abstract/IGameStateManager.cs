@@ -6,5 +6,7 @@ namespace RPGClash.GameEngine.Game.Abstract
     public interface IGameStateManager
     {
         public Task <GameState> InitiateGameAsync(List<GameStateDto> gameState);
+
+        public Task<GameState> GetGameStateAsync(string gameStateId);
     }
 }

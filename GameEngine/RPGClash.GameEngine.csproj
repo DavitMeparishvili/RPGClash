@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RPGClash.Domain\RPGClash.Domain.csproj" />
+    <ProjectReference Include="..\RPGClash.Infrastucture\RPGClash.Infrastucture.csproj" />
   </ItemGroup>
 
 </Project>

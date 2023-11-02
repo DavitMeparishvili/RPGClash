@@ -18,6 +18,7 @@ namespace RPGClash.GameEngine.CharacterAction.Concrete
             _actionClassMapperService = actionClassMapperService;
             _characterFactory = characterFactory;
         }
+
         public CharacterWithActions GetAvailableActions(CharacterName character)
         {
             var characterWithActions = _charactersWithActions.FirstOrDefault(x => x.CharacterName == character);

@@ -4,6 +4,7 @@ using RPGClash.Domain.Repositories;
 using RPGClash.GameEngine.Dtos;
 using RPGClash.GameEngine.Exceptions;
 using RPGClash.GameEngine.Game.Abstract;
+using RPGClash.Infrastucture.Persistance;
 using System.Text;
 
 namespace RPGClash.GameEngine.Game.Concrete
@@ -13,13 +14,16 @@ namespace RPGClash.GameEngine.Game.Concrete
         private readonly IUserRepo _userRepo;
 
         private readonly ICharacterRepo _characterRepo;
-        
-        public GameStateManager(IUserRepo userRepo, ICharacterRepo characterRepo)
+
+        private readonly IGameStorageService _gameStorage;
+
+        public GameStateManager(IUserRepo userRepo, ICharacterRepo characterRepo, IGameStorageService gameStorage)
         {
             _userRepo = userRepo;
             _characterRepo = characterRepo;
-
+            _gameStorage = gameStorage;
         }
+
         public async Task<GameState> InitiateGameAsync(List<GameStateDto> gameState)
         {
             ValidateGameState(gameState);
@@ -27,12 +31,22 @@ namespace RPGClash.GameEngine.Game.Concrete
             var (player1User, player1Characters) = await GetPlayerInfoAsync(gameState[0]);
             var (player2User, player2Characters) = await GetPlayerInfoAsync(gameState[1]);
 
-            return new GameState()
+            var state = new GameState()
             {
+                Id = Guid.NewGuid().ToString(),
                 Round = 0,
                 Player1 = InitPlayerState(player1User, player1Characters),
                 Player2 = InitPlayerState(player2User, player2Characters)
             };
+
+            await _gameStorage.SetValue(state.Id, state);
+
+            return state;
+        }
+
+        public async Task<GameState> GetGameStateAsync(string gameStateId)
+        {
+            return await _gameStorage.GetValue<GameState>(gameStateId);
         }
 
         private PlayerState InitPlayerState(User playerUser, List<Character> playerCharacters)
