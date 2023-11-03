@@ -3,8 +3,7 @@
     public enum MatchStatus
     {
         Unknown = 0,
-        NotStarted = 1,
-        Ongoing = 2,
-        Finished = 3
+        Ongoing = 1,
+        Finished = 2
     }
 }

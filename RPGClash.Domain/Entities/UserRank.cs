@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RPGClash.Domain.Enums;
 
 namespace RPGClash.Domain.Entities
 {
-    internal class UserRank
+    public class UserRank
     {
+        public int Id { get; set; }
+
+        public Ranks Rank { get; set; }
+
+        public List<User> Users { get; set; }
     }
 }

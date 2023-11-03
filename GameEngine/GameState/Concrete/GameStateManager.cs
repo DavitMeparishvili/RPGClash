@@ -1,11 +1,11 @@
 ﻿using RPGClash.Domain.Characters;
 using RPGClash.Domain.Entities;
+using RPGClash.Domain.Enums;
 using RPGClash.Domain.Repositories;
 using RPGClash.GameEngine.Dtos;
 using RPGClash.GameEngine.Exceptions;
 using RPGClash.GameEngine.Game.Abstract;
 using RPGClash.Infrastucture.Persistance;
-using System.Text;
 
 namespace RPGClash.GameEngine.Game.Concrete
 {
@@ -17,11 +17,10 @@ namespace RPGClash.GameEngine.Game.Concrete
 
         private readonly IGameStorageService _gameStorage;
 
-        public GameStateManager(IUserRepo userRepo, ICharacterRepo characterRepo, IGameStorageService gameStorage)
+        public GameStateManager(IUserRepo userRepo, ICharacterRepo characterRepo)
         {
             _userRepo = userRepo;
             _characterRepo = characterRepo;
-            _gameStorage = gameStorage;
         }
 
         public async Task<GameState> InitiateGameAsync(List<GameStateDto> gameState)
@@ -31,17 +30,14 @@ namespace RPGClash.GameEngine.Game.Concrete
             var (player1User, player1Characters) = await GetPlayerInfoAsync(gameState[0]);
             var (player2User, player2Characters) = await GetPlayerInfoAsync(gameState[1]);
 
-            var state = new GameState()
+            return new GameState()
             {
                 Id = Guid.NewGuid().ToString(),
                 Round = 0,
                 Player1 = InitPlayerState(player1User, player1Characters),
-                Player2 = InitPlayerState(player2User, player2Characters)
+                Player2 = InitPlayerState(player2User, player2Characters),
+                State = MatchStatus.Ongoing
             };
-
-            await _gameStorage.SetValue(state.Id, state);
-
-            return state;
         }
 
         public async Task<GameState> GetGameStateAsync(string gameStateId)
@@ -49,13 +45,13 @@ namespace RPGClash.GameEngine.Game.Concrete
             return await _gameStorage.GetValue<GameState>(gameStateId);
         }
 
-        private PlayerState InitPlayerState(User playerUser, List<Character> playerCharacters)
+        private Player InitPlayerState(User playerUser, List<Character> playerCharacters)
         {
-            return new PlayerState()
+            return new Player()
             {
                 UserId = playerUser.Id,
                 DoneWithMoves = false,
-                CharacterStates = playerCharacters.Select(c => new CharacterState(c)).ToList()
+                Characters = playerCharacters
             };
         }
 

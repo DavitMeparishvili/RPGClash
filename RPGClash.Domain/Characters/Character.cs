@@ -1,5 +1,5 @@
 ﻿using RPGClash.Domain.CharacterClasses;
-using System.Diagnostics;
+using RPGClash.Domain.Entities;
 
 namespace RPGClash.Domain.Characters;
 
@@ -37,6 +37,10 @@ public abstract class Character : IAttacker, IRegenerator
             }
         }
     }
+
+    public bool AllreadyMadeMove { get; set; }
+
+    public Character() {}
 
     public Character(CharacterName name, int maxHealth, int maxMana, int basicHeatPoint, int hasicHealPoint)
     {
@@ -114,6 +118,7 @@ public abstract class Character : IAttacker, IRegenerator
     {
         if (ValidateAndDeductManaCost(manaCost))
         {
+            AllreadyMadeMove = true;
             foreach (var target in targets)
             {
                 move(target);
