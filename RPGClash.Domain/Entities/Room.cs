@@ -3,11 +3,11 @@ public class Room
 {
     public int Id { get; set; }
 
-    public int? Player1Id { get; set; }
+    public string Player1Id { get; set; }
     
     public User? Player1 { get; set; }
 
-    public int? Player2Id { get; set; }
+    public string Player2Id { get; set; }
 
     public User? Player2 { get; set; }
 

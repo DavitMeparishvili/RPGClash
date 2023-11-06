@@ -32,7 +32,6 @@ namespace RPGClash.GameEngine.Game.Concrete
 
             return new GameState()
             {
-                Id = Guid.NewGuid().ToString(),
                 Round = 0,
                 Player1 = InitPlayerState(player1User, player1Characters),
                 Player2 = InitPlayerState(player2User, player2Characters),

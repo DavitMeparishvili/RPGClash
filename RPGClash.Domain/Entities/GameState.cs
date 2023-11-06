@@ -4,7 +4,7 @@ namespace RPGClash.Domain.Entities
 {
     public class GameState
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public int Player1Id { get; set; } = default!;
 
@@ -20,7 +20,7 @@ namespace RPGClash.Domain.Entities
 
         public User? Winner { get; set; }
 
-        public int? WinnerId { get; set; }
+        public string WinnerId { get; set; }
 
         public bool IsFinished { get; set; }
     }

@@ -1,7 +1,8 @@
-﻿namespace RPGClash.Domain.Entities;
-public class User
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace RPGClash.Domain.Entities;
+public class User : IdentityUser
 {
-    public int Id { get; set; }
     public string UserName { get; set; } = default!;
     public List<User>? Friends { get; set; }
     public int UserRankId { get; set; }

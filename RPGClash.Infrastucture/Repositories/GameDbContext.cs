@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RPGClash.Domain.Entities;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace RPGClash.Infrastucture.Repositories
 {
-    public class GameDbContext : DbContext
+    public class GameDbContext : IdentityDbContext<User>
     {
         public GameDbContext(DbContextOptions options)
             : base(options)
@@ -27,6 +28,7 @@ namespace RPGClash.Infrastucture.Repositories
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }

@@ -6,7 +6,7 @@ public class Player
 {
     public int Id { get; set; }
     public User User { get; set; } = default!;
-    public int UserId { get; set; } = default!;
+    public string UserId { get; set; } = default!;
     public GameState GameState { get; set; }
     public int GameStateId { get; set; }
     public List<DbCharacter> Characters { get; set; } = default!;
