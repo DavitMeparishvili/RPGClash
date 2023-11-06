@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RPGClash.Domain.Entities;
+using System.Reflection;
 
 namespace RPGClash.Infrastucture.Repositories
 {
@@ -18,10 +19,15 @@ namespace RPGClash.Infrastucture.Repositories
 
         public virtual DbSet<Room> Rooms { get; set; }
 
-        public virtual DbSet<PlayerCharacter> PlayerCharacters { get; set; }
+        public virtual DbSet<DbCharacter> Characters { get; set; }
 
         public virtual DbSet<UserRank> UserRanks { get; set; }
 
         public virtual DbSet<CharacterAction> Actions { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
     }
 }

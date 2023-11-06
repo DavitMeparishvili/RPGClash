@@ -6,8 +6,8 @@ namespace RPGClash.Domain.Repositories
 {
     public interface ICharacterRepo
     {
-        public Task<Character> GetCharacterAsync(CharacterName character);
+        public Task<DbCharacter> GetCharacterAsync(CharacterName character);
 
-        public Task<List<Character>> GetCharactersAsync(List<CharacterName> characters);
+        public Task<List<DbCharacter>> GetCharactersAsync(List<CharacterName> characters);
     }
 }

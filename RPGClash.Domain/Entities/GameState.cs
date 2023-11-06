@@ -6,7 +6,11 @@ namespace RPGClash.Domain.Entities
     {
         public string Id { get; set; }
 
+        public int Player1Id { get; set; } = default!;
+
         public Player Player1 { get; set; } = default!;
+
+        public int Player2Id { get; set; } = default!;
 
         public Player Player2 { get; set; } = default!;
 

@@ -71,7 +71,7 @@ namespace RPGClash.UnitTests
 
         [Theory]
         [MemberData("TestData", MemberType = typeof(CharacterConcreteTypesData))]
-        public void Charater_BasicAttackReducesHealthByBasicHealPoint(Character character)
+        public void Charater_BasicAttackReducesHealthByBasicHeatPoint(Character character)
         {
             // Arrange and Act
             var dummy = character.BasicAttack(_dummy);

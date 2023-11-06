@@ -1,7 +1,11 @@
+using RPGClash.Infrastucture;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddPersistence(builder.Configuration);
 
 var app = builder.Build();
 

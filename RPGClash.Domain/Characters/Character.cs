@@ -5,6 +5,7 @@ namespace RPGClash.Domain.Characters;
 
 public abstract class Character : IAttacker, IRegenerator
 {
+    public int Id { get; set; }
     public CharacterName Name { get; }
 
     public int MaxHealth { get; }

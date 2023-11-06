@@ -45,7 +45,7 @@ namespace RPGClash.GameEngine.Game.Concrete
             return await _gameStorage.GetValue<GameState>(gameStateId);
         }
 
-        private Player InitPlayerState(User playerUser, List<Character> playerCharacters)
+        private Player InitPlayerState(User playerUser, List<DbCharacter> playerCharacters)
         {
             return new Player()
             {
@@ -78,7 +78,7 @@ namespace RPGClash.GameEngine.Game.Concrete
             }
         }
 
-        private async Task<(User playerUser, List<Character> playerCharacters)> GetPlayerInfoAsync(GameStateDto gameState)
+        private async Task<(User playerUser, List<DbCharacter> playerCharacters)> GetPlayerInfoAsync(GameStateDto gameState)
         {
             var playerUser = await _userRepo.GetUserAsync(gameState.UserId);
             if (playerUser == null)
