@@ -4,6 +4,6 @@ namespace RPGClash.Domain.Repositories
 {
     public interface IUserRepo
     {
-        public Task<User> GetUserAsync(int userId);
+        public Task<User> GetUserAsync(string userId);
     }
 }

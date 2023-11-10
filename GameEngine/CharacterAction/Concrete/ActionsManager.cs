@@ -1,6 +1,6 @@
 ﻿using RPGClash.Domain.Characters;
 using RPGClash.GameEngine.CharacterAction.Abstract;
-using RPGClash.GameEngine.Dtos;
+using RPGClash.GameEngine.CharacterAction.Models;
 using RPGClash.GameEngine.Exceptions;
 using RPGClash.GameEngine.Factory.Abstract;
 

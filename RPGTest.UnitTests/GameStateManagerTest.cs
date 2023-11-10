@@ -18,12 +18,15 @@ namespace RPGClash.UnitTests
 
         private readonly ICharacterRepo _characterRepo;
 
+        private readonly IGameStateRepo _gameStateRepo;
+
         public GameStateManagerTest()
         {
             _characterRepo = Substitute.For<ICharacterRepo>();
             _userRepo = Substitute.For<IUserRepo>();
+            _gameStateRepo = Substitute.For<IGameStateRepo>();
 
-            _SUTgameStateManager = new GameStateManager(_userRepo, _characterRepo);
+            _SUTgameStateManager = new GameStateManager(_userRepo, _characterRepo, _gameStateRepo);
         }
 
         [Fact]
@@ -93,7 +96,7 @@ namespace RPGClash.UnitTests
         public async Task InitiateGameAsync_ShouldRejectUnexistingUser()
         {
             //Arreng
-            var userId = 66152325;
+            var userId = "66152325";
             _userRepo.GetUserAsync(userId).ReturnsForAnyArgs((User)null);
 
             //Act

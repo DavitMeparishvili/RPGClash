@@ -1,11 +1,10 @@
-﻿using RPGClash.Domain.Characters;
+﻿using Microsoft.EntityFrameworkCore;
 using RPGClash.Domain.Entities;
 using RPGClash.Domain.Enums;
 using RPGClash.Domain.Repositories;
 using RPGClash.GameEngine.Dtos;
 using RPGClash.GameEngine.Exceptions;
 using RPGClash.GameEngine.Game.Abstract;
-using RPGClash.Infrastucture.Persistance;
 
 namespace RPGClash.GameEngine.Game.Concrete
 {
@@ -15,12 +14,18 @@ namespace RPGClash.GameEngine.Game.Concrete
 
         private readonly ICharacterRepo _characterRepo;
 
-        private readonly IGameStorageService _gameStorage;
+        private readonly IGameStateRepo _gameStateRepo;
 
-        public GameStateManager(IUserRepo userRepo, ICharacterRepo characterRepo)
+        private readonly Func<IQueryable<GameState>, IQueryable<GameState>> _deepIncludes = q =>
+            q.Include(gs => gs.Player1)
+            .Include(gs => gs.Player2)
+            .Include(gs => gs.Winner);
+
+        public GameStateManager(IUserRepo userRepo, ICharacterRepo characterRepo, IGameStateRepo gameStateRepo)
         {
             _userRepo = userRepo;
             _characterRepo = characterRepo;
+            _gameStateRepo = gameStateRepo;
         }
 
         public async Task<GameState> InitiateGameAsync(List<GameStateDto> gameState)
@@ -30,18 +35,53 @@ namespace RPGClash.GameEngine.Game.Concrete
             var (player1User, player1Characters) = await GetPlayerInfoAsync(gameState[0]);
             var (player2User, player2Characters) = await GetPlayerInfoAsync(gameState[1]);
 
-            return new GameState()
+            var entity = new GameState()
             {
                 Round = 0,
                 Player1 = InitPlayerState(player1User, player1Characters),
                 Player2 = InitPlayerState(player2User, player2Characters),
                 State = MatchStatus.Ongoing
             };
+
+            await _gameStateRepo.AddGameStateAsync(entity);
+
+            return entity;
         }
 
-        public async Task<GameState> GetGameStateAsync(string gameStateId)
+        public async Task<GameState> GetGameStateAsync(int gameStateId)
         {
-            return await _gameStorage.GetValue<GameState>(gameStateId);
+            var gameState = await _gameStateRepo.GetGameStateAsync(gameStateId, _deepIncludes);
+            
+            if (gameState == null)
+            {
+                throw new GameException("Current game could not be found");
+            }
+
+            return gameState;
+        }
+
+        public async Task<GameState> FinishGameAsync(int gameStateId, string winnerUserId)
+        {
+            var gameState = await _gameStateRepo.GetGameStateAsync(gameStateId, _deepIncludes);
+
+            if (gameState == null)
+            {
+                throw new GameException("Current game could not be found");
+            }
+
+            gameState.State = MatchStatus.Finished;
+
+            var playerUser = await _userRepo.GetUserAsync(winnerUserId);
+            
+            if (playerUser == null)
+            {
+                throw new GameException($"Player with ID {winnerUserId} was not found");
+            }
+
+            gameState.IsFinished = true;
+            gameState.WinnerId = winnerUserId;
+
+            return gameState;
         }
 
         private Player InitPlayerState(User playerUser, List<DbCharacter> playerCharacters)

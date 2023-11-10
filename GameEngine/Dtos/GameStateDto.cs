@@ -9,7 +9,7 @@ namespace RPGClash.GameEngine.Dtos
 {
     public class GameStateDto
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public List<CharacterName> Characters { get; set; }
     }
 }

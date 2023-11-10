@@ -7,6 +7,8 @@ namespace RPGClash.GameEngine.Game.Abstract
     {
         public Task <GameState> InitiateGameAsync(List<GameStateDto> gameState);
 
-        public Task<GameState> GetGameStateAsync(string gameStateId);
+        public Task<GameState> GetGameStateAsync(int gameStateId);
+
+        public Task<GameState> FinishGameAsync(int gameStateId, string winnerUserId);
     }
 }
