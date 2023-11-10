@@ -16,7 +16,7 @@ namespace RPGClash.GameEngine.GameProcess.Concrete
         
         public async Task<GameState> PlayerMakeMoveAsync(MakeMoveDto dto)
         {
-            var gameState = await _gameStateManager.GetGameStateAsync(dto.GameStateId);
+            return await _gameStateManager.GetGameStateAsync(dto.GameStateId);
         }
     }
 }

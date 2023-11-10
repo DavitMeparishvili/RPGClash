@@ -25,16 +25,13 @@ namespace RPGClash.Infrastucture.Repositories
 
         public async Task<List<T>> FindByCondition(Expression<Func<T, bool>> expression, Func<IQueryable<T>, IQueryable<T>> includeFunc = null)
         {
-            var query =  _repositoryContext.Set<T>().Where(expression).AsNoTracking();
-
-            if (includeFunc != null)
-            {
-                query = includeFunc(query);
-            }
-
-            return await query.ToListAsync();
+            return await FindByConditionAndIncludes(expression, includeFunc).ToListAsync();
         }
 
+        public async Task<T?> FindFirstOrDefaultByCondition(Expression<Func<T, bool>> expression, Func<IQueryable<T>, IQueryable<T>> includeFunc = null)
+        {
+            return await FindByConditionAndIncludes(expression, includeFunc).FirstOrDefaultAsync();
+        }
 
         public async Task<T> Create(T entity)
         {
@@ -53,6 +50,18 @@ namespace RPGClash.Infrastucture.Repositories
         {
             _repositoryContext.Set<T>().Remove(entity);
             await _repositoryContext.SaveChangesAsync();
+        }
+
+        private IQueryable<T> FindByConditionAndIncludes(Expression<Func<T, bool>> expression, Func<IQueryable<T>, IQueryable<T>> includeFunc = null)
+        {
+            var query = _repositoryContext.Set<T>().Where(expression).AsNoTracking();
+
+            if (includeFunc != null)
+            {
+                query = includeFunc(query);
+            }
+
+            return query;
         }
     }
 }
