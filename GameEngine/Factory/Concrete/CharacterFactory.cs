@@ -1,4 +1,5 @@
-﻿using RPGClash.Domain;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RPGClash.Domain;
 using RPGClash.Domain.Characters;
 using RPGClash.GameEngine.Factory.Abstract;
 using System.Reflection;
