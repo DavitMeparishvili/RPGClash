@@ -1,4 +1,5 @@
-﻿using RPGClash.Domain.CharacterClasses;
+﻿using RPGClash.Domain.CharacterAction;
+using RPGClash.Domain.CharacterClasses;
 using RPGClash.Domain.Characters;
 using RPGClash.GameEngine.CharacterAction.Abstract;
 

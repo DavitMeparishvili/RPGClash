@@ -1,4 +1,5 @@
-﻿using RPGClash.Domain.Characters;
+﻿using RPGClash.Domain.CharacterAction;
+using RPGClash.Domain.Characters;
 using RPGClash.GameEngine.CharacterAction.Abstract;
 using RPGClash.GameEngine.CharacterAction.Models;
 using RPGClash.GameEngine.Exceptions;
@@ -59,6 +60,11 @@ namespace RPGClash.GameEngine.CharacterAction.Concrete
             {
                 return null;
             }
+        }
+
+        public bool ValidateAction(CharacterName character, Actions action)
+        {
+            return GetAvailableActions(character).Actions.Contains(action);
         }
     }
 }

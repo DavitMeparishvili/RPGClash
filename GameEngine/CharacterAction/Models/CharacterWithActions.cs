@@ -1,5 +1,5 @@
-﻿using RPGClash.Domain.Characters;
-using RPGClash.GameEngine.CharacterAction;
+﻿using RPGClash.Domain.CharacterAction;
+using RPGClash.Domain.Characters;
 
 namespace RPGClash.GameEngine.CharacterAction.Models
 {
