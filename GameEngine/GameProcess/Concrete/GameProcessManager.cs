@@ -1,6 +1,7 @@
 ﻿using RPGClash.Domain.CharacterAction;
 using RPGClash.Domain.Characters;
 using RPGClash.Domain.Entities;
+using RPGClash.Domain.Repositories;
 using RPGClash.GameEngine.CharacterAction.Abstract;
 using RPGClash.GameEngine.Dtos;
 using RPGClash.GameEngine.Exceptions;
@@ -12,12 +13,16 @@ namespace RPGClash.GameEngine.GameProcess.Concrete
     public class GameProcessManager : IGameProcessManager
     {
         private readonly IGameStateManager _gameStateManager;
+        
         private readonly IActionsManager _actionsManager;
 
-        public GameProcessManager(IGameStateManager gameStateManager, IActionsManager actionsManager)
+        private readonly IPlayerRepository _playerRepository;
+
+        public GameProcessManager(IGameStateManager gameStateManager, IActionsManager actionsManager, IPlayerRepository playerRepository)
         {
             _gameStateManager = gameStateManager;
             _actionsManager = actionsManager;
+            _playerRepository = playerRepository;
         }
         
         public async Task<GameState> PlayerMakeMoveAsync(MakeMoveDto dto)
@@ -28,7 +33,7 @@ namespace RPGClash.GameEngine.GameProcess.Concrete
             {
                 if (gameState.Player1.UserId == dto.UserId)
                 {
-
+                    
                 }
                 else
                 {

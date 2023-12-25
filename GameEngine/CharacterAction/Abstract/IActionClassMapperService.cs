@@ -11,7 +11,5 @@ namespace RPGClash.GameEngine.CharacterAction.Abstract
     public interface IActionClassMapperService
     {
         List<Actions> GetCharacterActions(Character character);
-
-        Type GetCharacterTypeByActionActions(Character character);
     }
 }
