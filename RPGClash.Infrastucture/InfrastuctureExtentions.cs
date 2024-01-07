@@ -3,19 +3,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RPGClash.Domain.Entities;
+using RPGClash.Domain.Repositories;
 using RPGClash.Infrastucture.Repositories;
 
 namespace RPGClash.Infrastucture
 {
     public static class InfrastructureExtensions
     {
-        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration.GetConnectionString("Reddis")));
+            var conectionString = configuration.GetConnectionString("GameDb");
 
             services.AddDbContext<GameDbContext>(builder =>
             {
-                builder.UseSqlServer("Server = Database");
+                builder.UseSqlServer(conectionString);
             });
 
             var builder = services.AddIdentityCore<User>(o =>
@@ -31,6 +32,8 @@ namespace RPGClash.Infrastucture
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole),builder.Services);
             
             builder.AddEntityFrameworkStores<GameDbContext>();
+
+            services.AddScoped<IGameStateRepo, GameStateRepo>();
 
             return services;
         }

@@ -23,11 +23,6 @@ namespace RPGClash.Infrastucture.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<List<T>> FindByCondition(Expression<Func<T, bool>> expression, Func<IQueryable<T>, IQueryable<T>> includeFunc = null)
-        {
-            return await FindByConditionAndIncludes(expression, includeFunc).ToListAsync();
-        }
-
         public async Task<T?> FindFirstOrDefaultByCondition(Expression<Func<T, bool>> expression, Func<IQueryable<T>, IQueryable<T>> includeFunc = null)
         {
             return await FindByConditionAndIncludes(expression, includeFunc).FirstOrDefaultAsync();

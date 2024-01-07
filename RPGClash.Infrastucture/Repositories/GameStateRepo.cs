@@ -19,7 +19,7 @@ namespace RPGClash.Infrastucture.Repositories
 
         public async Task<GameState?> GetGameStateAsync(int gameStateId, Func<IQueryable<GameState>, IQueryable<GameState>> includeFunc = null)
         {
-            return (await FindByCondition(gs => gs.Id == gameStateId, includeFunc)).FirstOrDefault();
+            return (await FindFirstOrDefaultByCondition(gs => gs.Id == gameStateId, includeFunc));
         }
     }
 }
